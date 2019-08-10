@@ -19,11 +19,37 @@ $ fzq -h
 
 ## Installation
 
-
 ### Using cargo for Rust programmers
 
 ```sh
 $ cargo install fzq
+```
+
+## Using programmatically
+
+Find the document on [Docs.rs](https://docs.rs/fzq). Add the following to your
+`Cargo.toml`.
+
+```toml
+[dependencies]
+fzq = "0.1"
+```
+
+And then, in your rust file:
+
+```rust
+use fzq::{Fzq, Metric};
+
+let mut fzq = Fzq::new();
+let fzq = fzq
+    .buffer_size(100)
+    .metric(Metric::Jaro)
+    .threshold(0.85);
+
+assert_eq!(fzq.is_similar("test 1"), false);
+assert_eq!(fzq.is_similar("test 2"), true);
+assert_eq!(fzq.is_similar("hello"), false);
+assert_eq!(fzq.is_similar("test 3"), true);
 ```
 
 ## License
